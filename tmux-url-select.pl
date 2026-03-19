@@ -158,7 +158,8 @@ sub yank_url {
         single_quote_escape($url),
         $ENV{TMUX_URL_SELECT_CLIP_CMD} || 'xclip -i'
     );
-    safe_exec($command, "Yanked ". $url);
+    tmux_display_message("Yanked ". $url) if VERBOSE_MESSAGES;
+    exec $command;
 }
 
 # main functions
