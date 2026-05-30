@@ -100,6 +100,9 @@ sub tmux_get_buffer {
 }
 
 sub tmux_open_inner_window {
+    if (grep { $_ == TMUX_WINDOW_ID } `$tmux_command list-windows -F '#{window_index}'`) {
+        system $tmux_command, "kill-window", "-t", TMUX_WINDOW_ID;
+    }
     system $tmux_command, "new-window", "-dn", "", "-t", TMUX_WINDOW_ID, "$0 inner";
     system $tmux_command, "setw", "-qt", TMUX_WINDOW_ID, "window-status-format", "";
     system $tmux_command, "setw", "-qt", TMUX_WINDOW_ID, "window-status-current-format", "";
